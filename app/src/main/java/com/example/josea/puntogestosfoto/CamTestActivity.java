@@ -50,8 +50,6 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
     //Variable para los gestos
     private GestureLibrary gestureLib;
 
-    //Manejador para retardar 3 segundos el hacer la foto
-    private Handler mHandler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,6 +95,9 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
             camera.release();
             camera = null;
         }
+        else{
+            System.exit(0);
+        }
         super.onPause();
     }
 
@@ -140,7 +141,7 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
             // Write to SD Card
             try {
                 File sdCard = Environment.getExternalStorageDirectory();
-                File dir = new File (sdCard.getAbsolutePath() + "/camtest");
+                File dir = new File (sdCard.getAbsolutePath() + "/app_gesto_foto");
                 dir.mkdirs();
 
                 String fileName = String.format("%d.jpg", System.currentTimeMillis());
@@ -179,15 +180,21 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
     }
 
     public void onGesturePerformed (GestureOverlayView overlay, Gesture gesture){
+        //Manejador para hacer que tome la foto en 3 segundos
+        Handler mhandler = new Handler();
         ArrayList<Prediction> predictions = gestureLib.recognize(gesture);
+
         for (Prediction prediction : predictions) {
             if (prediction.score > 4.0) {
-                Toast.makeText(this, prediction.name, Toast.LENGTH_SHORT).show();
-                mHandler.postDelayed(new Runnable() {
+
+                Toast.makeText(this,getString(R.string.Foto_en_3) , Toast.LENGTH_SHORT).show();
+
+                mhandler.postDelayed(new Runnable() {
                     public void run() {
                         camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+                        Toast.makeText(ctx, "Foto Realizada!", Toast.LENGTH_SHORT).show();
                     }
-                },3000);
+                }, 3000);
             }
         }
     }
