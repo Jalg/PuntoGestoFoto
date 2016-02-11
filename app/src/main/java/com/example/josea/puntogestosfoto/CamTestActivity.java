@@ -265,11 +265,26 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
                 //Mostramos un mensaje en pantalla
                 Toast.makeText(this,getString(R.string.Foto_en_3) , Toast.LENGTH_SHORT).show();
 
-                //Hacemos la foto cuando pasan 3 segundos.
+                //Hacemos la foto cuando pasan 3 segundos con cuenta atras.
                 mhandler.postDelayed(new Runnable() {
                     public void run() {
-                        camera.takePicture(shutterCallback, rawCallback, jpegCallback);
-                        Toast.makeText(ctx, getString(R.string.Foto_realizada), Toast.LENGTH_SHORT).show();
+                        Handler mhandler = new Handler();
+                        Toast.makeText(ctx,getString(R.string.Foto_en_2) , Toast.LENGTH_SHORT).show();
+
+                        mhandler.postDelayed(new Runnable() {
+                            public void run() {
+                                Handler mhandler = new Handler();
+                                Toast.makeText(ctx, getString(R.string.Foto_en_1), Toast.LENGTH_SHORT).show();
+
+                                mhandler.postDelayed(new Runnable() {
+                                    public void run() {
+
+                                        Toast.makeText(ctx, "Foto Realizada!", Toast.LENGTH_SHORT).show();
+                                        camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+                                    }
+                                }, 1000);
+                            }
+                        }, 2000);
                     }
                 }, 3000);
             }
