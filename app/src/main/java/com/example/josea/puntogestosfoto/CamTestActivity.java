@@ -152,6 +152,21 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
     }
 
     /**
+     * Detruye la aplicación
+     */
+    @Override
+    protected void onDestroy() {
+        if(camera != null) {
+            camera.stopPreview();
+            preview.setCamera(null);
+            camera.release();
+            camera = null;
+        }
+        super.onDestroy();
+    }
+
+
+    /**
      * Función que reinicia la cámara después de realizar una foto.
      */
     private void resetCam() {
