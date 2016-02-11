@@ -1,3 +1,20 @@
+/*
+    Copyright (C) 2016  José Miguel Navarro Moreno and José Antonio Larrubia García
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.example.josea.puntogestosfoto;
 
 /*
@@ -37,50 +54,49 @@ import android.widget.Toast;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
 
-/// <summary>
-/// Clase principal de la aplicación, cámara de fotos que hará una foto a los 3 segundos de reconocer el patrón dibujado en pantalla adecuado.
-/// Se ha usado la siguiente documentación:
-/// Parte 2.5  y 3 de : http://nuevos-paradigmas-de-interaccion.wikispaces.com/Detecci%C3%B3n+de+patrones+en+Android+-+Gesture+Builder
-/// para la realización de la parte del patrón.
-/// https://github.com/josnidhin/Android-Camera-Example
-/// como base para la cámara.
-/// </summary>
+/**
+ * Clase principal de la aplicación, cámara de fotos que hará una foto a los 3 segundos de reconocer el patrón dibujado en pantalla adecuado.
+ * Se ha usado la siguiente documentación:
+ * Parte 2.5  y 3 de : http://nuevos-paradigmas-de-interaccion.wikispaces.com/Detecci%C3%B3n+de+patrones+en+Android+-+Gesture+Builder
+ * para la realización de la parte del patrón.
+ *https://github.com/josnidhin/Android-Camera-Example
+ *como base para la cámara.
+ */
 public class CamTestActivity extends Activity implements GestureOverlayView.OnGesturePerformedListener {
-
-    /// <summary>
-    /// Variable usada para los mensajes de depuración.
-    /// </summary>
+    /**
+     * Variable usada para los mensajes de depuración.
+     */
     private static final String TAG = "CamTestActivity";
 
-    /// <summary>
-    /// Estructura que usa la cámara para poder usarla sin problema, ver su archivo para más información.
-    /// </summary>
+    /**
+     * Estructura que usa la cámara para poder usarla sin problema, ver su archivo para más información.
+     */
     Preview preview;
 
-    /// <summary>
-    /// Sensor de la cámara.
-    /// </summary>
+    /**
+     * Sensor de la cámara.
+     */
     Camera camera;
 
-    /// <summary>
-    /// Estructura para la actividad, asignada por la superclase.
-    /// </summary>
+    /**
+     * Estructura para la actividad, asignada por la superclase.
+     */
     Activity act;
 
-    /// <summary>
-    /// Estructura para el contexto de la aplicación, asignada por la superclase.
-    /// </summary>
+    /**
+     * Estructura para el contexto de la aplicación, asignada por la superclase.
+     */
     Context ctx;
 
-    /// <summary>
-    /// Estructura para los gestos.
-    /// </summary>
+    /**
+     * Estructura para los gestos.
+     */
     private GestureLibrary gestureLib;
 
-    /// <summary>
-    /// Función que se llama al iniciar la aplicación, inicia todos los servicios necesarios.
-    /// </summary>
-    /// <param name=" savedInstanceState "> Parámetro con la instancia de la aplicación, pasado por android </param>
+    /**
+     * Función que se llama al iniciar la aplicación, inicia todos los servicios necesarios.
+     * @param savedInstanceState Parámetro con la instancia de la aplicación, pasado por android
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,9 +119,9 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
         preview.setKeepScreenOn(true);
     }
 
-    /// <summary>
-    /// Función llamada por android al reanudar la aplicación después de estar en pausa para recuperarse.
-    /// </summary>
+    /**
+     * Función llamada por android al reanudar la aplicación después de estar en pausa para recuperarse.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -121,9 +137,9 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
         }
     }
 
-    /// <summary>
-    /// Función llamada cuando se pause la aplicación.
-    /// </summary>
+    /**
+     * Función llamada cuando se pause la aplicación.
+     */
     @Override
     protected void onPause() {
         if(camera != null) {
@@ -135,45 +151,44 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
         super.onPause();
     }
 
-    /// <summary>
-    /// Función que reinicia la cámara después de realizar una foto.
-    /// </summary>
-    /// <param name=" ">  </param>
+    /**
+     * Función que reinicia la cámara después de realizar una foto.
+     */
     private void resetCam() {
         camera.startPreview();
         preview.setCamera(camera);
     }
 
-    /// <summary>
-    /// Función para actualizar la galeria de fotos del dispositivo.
-    /// </summary>
-    /// <param name=" file "> fichero con el que se actualizará la galería </param>
+    /**
+     * Función para actualizar la galeria de fotos del dispositivo.
+     * @param file fichero con el que se actualizará la galería
+     */
     private void refreshGallery(File file) {
         Intent mediaScanIntent = new Intent( Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         mediaScanIntent.setData(Uri.fromFile(file));
         sendBroadcast(mediaScanIntent);
     }
 
-    /// <summary>
-    /// Estructura necesaria para la cámara cuando se realiza la foto.
-    /// </summary>
+    /**
+     * Estructura necesaria para la cámara cuando se realiza la foto.
+     */
     ShutterCallback shutterCallback = new ShutterCallback() {
         public void onShutter() {
         }
     };
 
-    /// <summary>
-    /// Estructura necesaria para la cámara cuando se realiza la foto.
-    /// </summary>
+    /**
+     * Estructura necesaria para la cámara cuando se realiza la foto.
+     */
     PictureCallback rawCallback = new PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera) {
         }
     };
 
-    /// <summary>
-    /// Estructura necesaria para la cámara cuando se realiza la foto, en esta si hacemos algo más que en las anteriores,
-    /// guardamos la imagen correctamente y reiniciamos la cámara.
-    /// </summary>
+    /**
+     * Estructura necesaria para la cámara cuando se realiza la foto, en esta si hacemos algo más que en las anteriores,
+     * guardamos la imagen correctamente y reiniciamos la cámara.
+     */
     PictureCallback jpegCallback = new PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera) {
             new SaveImageTask().execute(data);
@@ -182,15 +197,16 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
         }
     };
 
-    /// <summary>
-    /// Clase para guardar correctamente la imagen.
-    /// </summary>
+    /**
+     * Clase para guardar correctamente la imagen.
+     */
     private class SaveImageTask extends AsyncTask<byte[], Void, Void> {
 
-        /// <summary>
-        /// Función para que al hacer la foto la almacene correctamente.
-        /// </summary>
-        /// <param name=" data "> parámetro que contiene los datos de la imagen </param>
+        /**
+         * Función para que al hacer la foto la almacene correctamente.
+         * @param data parámetro que contiene los datos de la imagen
+         * @return
+         */
         @Override
         protected Void doInBackground(byte[]... data) {
             // Inicializamos el flujo de salida.
@@ -229,9 +245,9 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
 
     }
 
-    /// <summary>
-    /// Función llamada por onCreate para inicializar correctamente lo necesario para el analizador de gestos.
-    /// </summary>
+    /**
+     * Función llamada por onCreate para inicializar correctamente lo necesario para el analizador de gestos.
+     */
     public void PrepararGestos(){
         GestureOverlayView gestureOverlayView = new GestureOverlayView(this);
         View inflate = getLayoutInflater().inflate(R.layout.main, null);
@@ -245,11 +261,11 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
         setContentView(gestureOverlayView);
     }
 
-    /// <summary>
-    /// Función que detecta si el patrón que se realiza en pantalla coincide con alguno de los almacenados.
-    /// </summary>
-    /// <param name=" overlay "> parámetro para leer desde pantalla el gesto, necesario para el reconocimiento aunque no lo usemos concretamente </param>
-    /// <param name=" gesture "> parámetro que almacena el gesto realizado en pantalla por el usuario  </param>
+    /**
+     * Función que detecta si el patrón que se realiza en pantalla coincide con alguno de los almacenados.
+     * @param overlay parámetro para leer desde pantalla el gesto, necesario para el reconocimiento aunque no lo usemos concretamente
+     * @param gesture parámetro que almacena el gesto realizado en pantalla por el usuario
+     */
     public void onGesturePerformed (GestureOverlayView overlay, Gesture gesture){
         //Manejador para hacer que tome la foto en 3 segundos
         Handler mhandler = new Handler();
