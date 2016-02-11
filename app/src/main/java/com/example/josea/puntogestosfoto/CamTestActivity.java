@@ -259,9 +259,9 @@ public class CamTestActivity extends Activity implements GestureOverlayView.OnGe
 
         for (Prediction prediction : predictions) {
             // Comprobamos si alguno de los gestos introducidos por pantalla es parecido al nuestro.
-            // Hemos elegido un score de 4 porque ni era lo suficiente sensible para que no detectará ningún gesto como parecido ni
+            // Hemos elegido un score de 3 porque ni era lo suficiente sensible para que no detectará ningún gesto como parecido ni
             // lo suficiente tosco para que detectara cualquier patrón como si fuera el nuestro, calculado haciendo pruebas.
-            if (prediction.score > 4.0) {
+            if (prediction.score > 3.0) {
                 //Mostramos un mensaje en pantalla
                 Toast.makeText(this,getString(R.string.Foto_en_3) , Toast.LENGTH_SHORT).show();
 
